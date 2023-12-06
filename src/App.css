@@ -3,16 +3,17 @@
 }
 
 .App {
-  background-color: #b7c4cf;
-  background-repeat: no-repeat;
   display: flex;
-  flex-direction: row;
-  justify-content: center;
   align-items: center;
   justify-items: center;
-  margin-top: 1%;
-  height: 100%;
-  width: 100%;
-  margin: 0;
-  padding: 0;
+  justify-content: center;
+  background: linear-gradient(
+    180deg,
+    rgb(25, 38, 85) 0%,
+    rgba(12, 53, 106, 0.65) 100%
+  );
+  background-repeat: no-repeat;
+  min-height: 100vh; /* Set a minimum height of 100% of the viewport height */
+  margin: 0; /* Remove default margin */
+  font-family: --font-family-inter, sans-serif;
 }

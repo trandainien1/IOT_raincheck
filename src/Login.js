@@ -1,57 +1,65 @@
-import React, { Component } from 'react'
+import React, { Component, useRef, useState } from "react";
 
-import { getAuth,createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from './config/fire';
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  sendPasswordResetEmail,
+} from "firebase/auth";
+import { auth } from "./config/fire";
 
-export default class Login extends Component {
-  constructor(props){
-    super(props);
-    this.state = {
-      email:"",
-      password:""
-    }
-  }
-  login = () => {
-    signInWithEmailAndPassword(auth,this.state.email, this.state.password)
-    .then((u)=> {
-      // this.props.setUser(u.user);
-      console.log('>>>check login: ',u.user);
-    }).catch((err) => {
-      console.log(err);
-    })
-  }
-  signup = () => {
-    console.log(this.state.email, " " ,this.state.password);
-    createUserWithEmailAndPassword(auth,this.state.email, this.state.password)
-    .then((u)=> {
-      console.log('>>>check user: ',u);
-    }).catch((err) => {
-      console.log(err);
-    })
-  }
-  handleChange = (e) => {
-    this.setState({
-      [e.target.name]: e.target.value
-    })
-    console.log(this.state);
-  }
-  render() {
-    return (
-      <div>
-         
-            <input type="email" id="email" name="email" placeholder="email"
-            onChange={this.handleChange}
-            value= {this.state.email}>
-            </input>
+import logo from "./imgs/logo.svg";
+import "./Login.css";
 
-            <input type="password" id="password" name="password" placeholder="password"
-            onChange={this.handleChange}
-            value= {this.state.password}>            
-            </input>
-            <button onClick={this.login}>Login</button>
-            <button onClick={this.signup}>Signup</button>
-         
+const Login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const emailRef = useRef("");
+  const passwordRef = useRef("");
+
+  const login = (e) => {
+    e.preventDefault();
+
+    signInWithEmailAndPassword(auth, email, password)
+      .then((u) => {
+        // this.props.setUser(u.user);
+        console.log(">>>check login: ", u.user);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  return (
+    <div className="Login">
+      <div className="login">
+        <img src={logo} alt="rain-check-logo" className="logo" />
+        <form action="">
+          <input
+            type="email"
+            className="email"
+            placeholder="Email"
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
+            value={email}
+          />
+          <input
+            type="password"
+            id="password"
+            className="password"
+            placeholder="Password"
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
+            value={password}
+          />
+          <input type="submit" value="LOGIN" onClick={(e) => login(e)} />
+        </form>
       </div>
-    )
-  }
-}
+    </div>
+  );
+};
+
+export default Login;

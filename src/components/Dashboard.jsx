@@ -6,15 +6,24 @@ import PullClothButton from "./PullClothButton";
 import WeatherInfo from "./WeatherInfo";
 import cloudy from "../imgs/cloudy.svg";
 import TodayWeather from "./TodayWeather";
+import { signOut } from "firebase/auth";
+import { auth } from "../firebaseConfig";
 
 const Dashboard = () => {
-  // const cloudy = "../imgs/cloudy.svg"; // replace with your actual path
   const element = { value: 33, img: cloudy, day: "Tomorrow", date: "2/2/2023" };
   const array = new Array(7).fill(element);
   console.log(array);
 
   return (
-    <>
+    <div className="dashboard">
+      <button
+        className="signout-btn"
+        onClick={() => {
+          signOut(auth);
+        }}
+      >
+        Sign out
+      </button>
       <div className="main-dashboard">
         <GeneralInfo />
         <MeasurementContainer />
@@ -32,7 +41,7 @@ const Dashboard = () => {
           />
         ))}
       </div>
-    </>
+    </div>
   );
 };
 

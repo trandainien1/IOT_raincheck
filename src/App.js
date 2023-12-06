@@ -2,7 +2,9 @@ import React, { Component } from "react";
 import Home from "./Home";
 import Login from "./Login";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { auth } from "./config/fire";
+import { auth } from "./firebaseConfig";
+// import "./App.css";
+import Dashboard from "./components/Dashboard";
 // const auth = getAuth();
 export default class App extends Component {
   constructor(props) {
@@ -37,9 +39,7 @@ export default class App extends Component {
 
   render() {
     return (
-      <div className="App">
-        {this.state.user ? <Home /> : <Login setUser={this.setUser} />}
-      </div>
+      <div className="App">{this.state.user ? <Dashboard /> : <Login />}</div>
     );
   }
 }
