@@ -1,61 +1,49 @@
-import React, { useEffect, useState } from "react";
-import "./firebaseConfig"; // Add this line prevent firebase not loading error
-import {
-  getFirestore,
-  addDoc,
-  collection,
-  onSnapshot,
-} from "firebase/firestore";
-import { getDocs } from "firebase/firestore";
+import React, { Component } from 'react';
+import Home from './Home';
+import Login from './Login';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { auth } from './config/fire';
+// const auth = getAuth();
+export default class App extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      user: null
+    }
+  }
+  componentDidMount(){
+    this.authListener();
+  }
 
-function App() {
-  const [inputValue1, setInputValue1] = useState("");
-  const [inputValue2, setInputValue2] = useState("");
-  let [storedValues, setStoredValues] = useState([]);
+  componentWillUnmount() {
+    this.authListener();
+  }
 
-  const db = getFirestore();
+  setUser(user) {
+    this.setState({user}); 
+  }
 
-  const saveDataToFirestore = async () => {
-    const docRef = await addDoc(collection(db, "myCollection"), {
-      field1: inputValue1,
-      field2: inputValue2,
+  
+  authListener(){
+    onAuthStateChanged(auth, (user) => {
+      console.log('>>>check user: ', user);
+      if (user) {
+        this.setState({user}); 
+        const uid = user.uid;
+        
+      } else {
+        this.setState({user:null})
+      }
     });
-    alert("Document written to Database");
-  };
+    
+  }
 
-  const fetchDataFromFirestore = () => {
-    const query = collection(db, "EspData");
-
-    const unsubscribe = onSnapshot(query, (querySnapshot) => {
-      const temporaryArr = [];
-      querySnapshot.forEach((doc) => {
-        temporaryArr.push(doc.data());
-      });
-      console.log(temporaryArr);
-      setStoredValues(temporaryArr);
-    });
-
-    return unsubscribe;
-  };
-
-  useEffect(() => {
-    const unsubscribe = fetchDataFromFirestore();
-    return () => unsubscribe();
-  }, []);
-
-  return (
-    <div className="App">
-      <h1>Data from Firestore</h1>
-      {storedValues.map((value) => (
-        <div>
-          <div>Temperature: {value.Temperature}</div>
-          <div>Humidity: {value.Humidity}</div>
-          <div>Light: {value.Light}</div>
-          <div>Rain: {value.Rain}</div>
-        </div>
-      ))}
-    </div>
-  );
+  render() {
+    return (
+      <div className="App">
+        {this.state.user ? (<Home/>) : (<Login setUser={this.setUser}/>)}
+      </div>
+    )
+  }
 }
 
-export default App;
