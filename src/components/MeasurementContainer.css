@@ -1,0 +1,8 @@
+.temp-humid,
+.light-rain {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  min-width: 90%;
+  margin: 2% 0;
+}

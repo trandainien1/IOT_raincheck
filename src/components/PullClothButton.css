@@ -1,0 +1,36 @@
+.pull-cloth-btn {
+  background-color: var(--zumthor);
+  border-radius: 20px;
+  cursor: pointer;
+  color: var(--blue-zodiac);
+  border: none;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 8%;
+  margin: 7% 0;
+  justify-content: center;
+  align-items: center;
+}
+
+.pull-cloth-btn:hover .btn-icon {
+  background-color: var(--blue-zodiac);
+  color: var(--zumthor);
+  transition: all 0.4s ease;
+}
+.pull-cloth-btn:hover {
+  background-color: var(--blue-zodiac);
+  color: var(--zumthor);
+  transition: all 0.1s ease;
+}
+.btn-icon {
+  font-size: 3em;
+  color: var(--blue-zodiac);
+}
+
+.btn-title {
+  font-weight: 800;
+  text-align: right;
+  font-size: 20px;
+  margin-left: 12px;
+}

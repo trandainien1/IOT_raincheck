@@ -1,0 +1,53 @@
+.temperature,
+.humidity,
+.light,
+.rain {
+  display: flex;
+  flex-direction: row;
+  background-color: var(--zumthor);
+  border-radius: 20px;
+  cursor: pointer;
+  width: 47%;
+  justify-content: space-between;
+}
+.temperature:hover,
+.humidity:hover,
+.light:hover,
+.rain:hover {
+  background-color: white;
+}
+
+.val-field {
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  padding: 4%;
+}
+
+.heading,
+.val {
+  color: var(--blue-zodiac);
+  font-weight: 700;
+  font-style: normal;
+  width: fit-content;
+  margin: 0;
+  padding: 5%;
+}
+
+.sub-head {
+  color: #ababab;
+  font-size: 12px;
+  font-weight: 400;
+  font-style: italic;
+  margin: 0;
+  padding: 0 5%;
+  width: 100%;
+}
+
+.val {
+  color: black;
+}
+.demonstrated-img {
+  width: 30%;
+  padding-right: 8%;
+}

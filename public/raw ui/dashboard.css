@@ -55,6 +55,8 @@ body {
   padding: 0 2%;
 }
 
+/* Start GeneralInfo.css */
+
 .general-info {
   align-items: center;
   background: linear-gradient(
@@ -123,6 +125,8 @@ body {
   margin-left: 4%;
 }
 
+/* End GeneralInfo.css */
+
 .temp-humid,
 .light-rain {
   display: flex;
@@ -185,6 +189,8 @@ body {
   width: 30%;
   padding-right: 8%;
 }
+
+/* End MeasurmentCard.css */
 
 .pull-cloth-btn {
   background-color: var(--zumthor);

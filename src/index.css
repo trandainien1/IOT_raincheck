@@ -1,7 +1,21 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
-  background-color: white;
+@import url("https://fonts.googleapis.com/css?family=Inter:400,700");
+
+:root {
+  --black: rgba(0, 0, 0, 1);
+  --blue-zodiac: rgba(25, 38, 85, 1);
+  --shady-lady: rgba(170, 170, 170, 1);
+  --zumthor: rgba(238, 245, 255, 1);
+  --font-size-m: 12px;
+  --font-size-l: 16px;
+  --font-size-xl: 20px;
+  --font-size-xxl: 24px;
+  --font-size-xxxl: 28px;
+  --font-size-xxxxl: 36px;
+  --font-size-xxxxxl: 116px;
+  --font-family-inter: "Inter";
+}
+
+#root {
+  width: 100%;
+  margin: 12px 0;
 }
