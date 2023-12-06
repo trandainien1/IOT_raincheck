@@ -7,7 +7,7 @@ import WeatherInfo from "./WeatherInfo";
 import cloudy from "../imgs/cloudy.svg";
 import TodayWeather from "./TodayWeather";
 import { signOut } from "firebase/auth";
-import { auth } from "../firebaseConfig";
+import { auth } from "../config/fire";
 
 const Dashboard = () => {
   const element = { value: 33, img: cloudy, day: "Tomorrow", date: "2/2/2023" };

@@ -1,8 +1,7 @@
 import React, { Component } from "react";
-import Home from "./Home";
 import Login from "./Login";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { auth } from "./firebaseConfig";
+import { auth } from "./config/fire";
 // import "./App.css";
 import Dashboard from "./components/Dashboard";
 // const auth = getAuth();
