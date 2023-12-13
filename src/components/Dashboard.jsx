@@ -4,7 +4,10 @@ import MeasurementContainer from "./MeasurementContainer";
 import "./Dashboard.css";
 import PullClothButton from "./PullClothButton";
 import WeatherInfo from "./WeatherInfo";
-import cloudy from "../imgs/cloudy.svg";
+import Clouds from "../imgs/light.svg";
+import Rain from "../imgs/rain.svg";
+import Drizzle from "../imgs/cloudy.svg";
+import Thunderstorm from "../imgs/thunder.svg";
 import TodayWeather from "./TodayWeather";
 import { signOut } from "firebase/auth";
 import { auth } from "../config/fire";
@@ -21,10 +24,23 @@ import {
 // import "../config/fire";
 import { db } from "../config/fire";
 
-const Dashboard = () => {
-  const element = { value: 33, img: cloudy, day: "Tomorrow", date: "2/2/2023" };
-  const array = new Array(7).fill(element);
+const formatDate = (dateString) => {
+  const dateObject = new Date(dateString);
+  const dayOfWeek = dateObject.getDay();
 
+  const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+  const formattedDate = `${(dateObject.getDate()).toString().padStart(2, '0')}/${(dateObject.getMonth() + 1).toString().padStart(2, '0')}/${dateObject.getFullYear()}`;
+
+  return {
+    dayOfWeek: weekdays[dayOfWeek],
+    formattedDate: formattedDate
+  }
+}
+
+const Dashboard = () => {
+
+  // Niên 
   const [inputValue1, setInputValue1] = useState("");
   const [inputValue2, setInputValue2] = useState("");
   let [storedValues, setStoredValues] = useState([]);
@@ -132,6 +148,58 @@ const Dashboard = () => {
     // saveDataToFirestore();
   };
 
+  // Hy
+
+  const [todayWeather, setTodayWeather] = useState({ value: 0, image: Clouds })
+  const [restDays, setRestDays] = useState([])
+
+  const apiKey = "5ababf5df792a59de71aae06ede839dd";
+  const cityId = "1566083";
+  const url =
+    "http://api.openweathermap.org/data/2.5/forecast?id=" +
+    cityId +
+    "&APPID=" +
+    apiKey +
+    "&units=imperial";
+
+  fetch(url)
+    .then((response) => response.json())
+    .then((data) => {
+      const collection = data.list.filter((item) =>
+        item.dt_txt.includes("12:00:00")
+      );
+
+      const weatherImages = {
+        Clouds: Clouds,
+        Rain: Rain,
+        Drizzle: Drizzle,
+        Thunderstorm: Thunderstorm,
+      };
+
+      // Use it in your code like this:
+      const dailyForecast = collection.map(item => {
+        const image = weatherImages[item.weather[0].main]
+        var val = (item.main.temp_max - 32) * 5 / 9;
+        return [
+          {
+            day: formatDate(item.dt_txt).dayOfWeek,
+            date: formatDate(item.dt_txt).formattedDate,
+            value: val.toFixed(1),
+            image: image
+          }
+        ]
+      })
+
+      const [firstDay, ...restDays] = dailyForecast;
+      console.log(firstDay)
+      setTodayWeather({
+        value: firstDay[0].value,
+        image: firstDay[0].image
+      })
+      const tmp = restDays.flat(1)
+      setRestDays(tmp)
+    })
+    .catch((error) => console.error("Error: ", error));
   return (
     <div className="dashboard">
       <button
@@ -157,14 +225,14 @@ const Dashboard = () => {
       </div>
       <div className="side-dashboard">
         <PullClothButton activateMotor={activateMotor} />
-        <h5>FORCAST THIS WEEK</h5>
-        <TodayWeather value={33} img={cloudy} />
-        {array.map((item, index) => (
+        <h5>FORECAST THIS WEEK</h5>
+        <TodayWeather value={todayWeather.value} img={todayWeather.image} />
+        {restDays.map((item, index) => (
           <WeatherInfo
             day={item.day}
             date={item.date}
             value={item.value}
-            img={cloudy}
+            img={item.image}
             key={index}
           />
         ))}
