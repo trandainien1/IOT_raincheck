@@ -28,19 +28,30 @@ const formatDate = (dateString) => {
   const dateObject = new Date(dateString);
   const dayOfWeek = dateObject.getDay();
 
-  const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  const weekdays = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
 
-  const formattedDate = `${(dateObject.getDate()).toString().padStart(2, '0')}/${(dateObject.getMonth() + 1).toString().padStart(2, '0')}/${dateObject.getFullYear()}`;
+  const formattedDate = `${dateObject.getDate().toString().padStart(2, "0")}/${(
+    dateObject.getMonth() + 1
+  )
+    .toString()
+    .padStart(2, "0")}/${dateObject.getFullYear()}`;
 
   return {
     dayOfWeek: weekdays[dayOfWeek],
-    formattedDate: formattedDate
-  }
-}
+    formattedDate: formattedDate,
+  };
+};
 
 const Dashboard = () => {
-
-  // Niên 
+  // Niên
   const [inputValue1, setInputValue1] = useState("");
   const [inputValue2, setInputValue2] = useState("");
   let [storedValues, setStoredValues] = useState([]);
@@ -91,13 +102,14 @@ const Dashboard = () => {
       }
 
       console.log("Stored value", temporaryArr);
-
+      console.log("Count", temporaryArr);
+      setCount(temporaryArr.length + 1);
+      console.log("Count", count);
       setStoredValues(temporaryArr);
       // if (init) {
       // setInit(false);
       // setCount(temporaryArr.length);
       // } else {
-      setCount(temporaryArr.length + 1);
       // }
     });
 
@@ -165,8 +177,8 @@ const Dashboard = () => {
 
   // Hy
 
-  const [todayWeather, setTodayWeather] = useState({ value: 0, image: Clouds })
-  const [restDays, setRestDays] = useState([])
+  const [todayWeather, setTodayWeather] = useState({ value: 0, image: Clouds });
+  const [restDays, setRestDays] = useState([]);
 
   const apiKey = "5ababf5df792a59de71aae06ede839dd";
   const cityId = "1566083";
@@ -178,7 +190,12 @@ const Dashboard = () => {
     "&units=imperial";
 
   fetch(url)
-    .then((response) => response.json())
+    .then((response) => {
+      if (response.status === 429) {
+        throw new Error("Too many requests");
+      }
+      return response.json();
+    })
     .then((data) => {
       const collection = data.list.filter((item) =>
         item.dt_txt.includes("12:00:00")
@@ -192,27 +209,27 @@ const Dashboard = () => {
       };
 
       // Use it in your code like this:
-      const dailyForecast = collection.map(item => {
-        const image = weatherImages[item.weather[0].main]
-        var val = (item.main.temp_max - 32) * 5 / 9;
+      const dailyForecast = collection.map((item) => {
+        const image = weatherImages[item.weather[0].main];
+        var val = ((item.main.temp_max - 32) * 5) / 9;
         return [
           {
             day: formatDate(item.dt_txt).dayOfWeek,
             date: formatDate(item.dt_txt).formattedDate,
             value: val.toFixed(1),
-            image: image
-          }
-        ]
-      })
+            image: image,
+          },
+        ];
+      });
 
       const [firstDay, ...restDays] = dailyForecast;
-      console.log(firstDay)
+      console.log(firstDay);
       setTodayWeather({
         value: firstDay[0].value,
-        image: firstDay[0].image
-      })
-      const tmp = restDays.flat(1)
-      setRestDays(tmp)
+        image: firstDay[0].image,
+      });
+      const tmp = restDays.flat(1);
+      setRestDays(tmp);
     })
     .catch((error) => console.error("Error: ", error));
   return (
