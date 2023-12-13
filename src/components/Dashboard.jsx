@@ -25,6 +25,7 @@ import {
 } from "firebase/firestore";
 // import "../config/fire";
 import { db } from "../config/fire";
+import SideNav from "./SideNav";
 
 const formatDate = (dateString) => {
   const dateObject = new Date(dateString);
@@ -182,8 +183,8 @@ const Dashboard = () => {
   const [todayWeather, setTodayWeather] = useState({ value: 0, image: Clouds });
   const [restDays, setRestDays] = useState([]);
 
-  const apiKey = "c0387600d0061b5c23cb9006ded2dc14";
-  const cityId = "1566083";
+  const apiKey = "7f168c708e5a658cef2894d16b56d09b";
+  const cityId = "1566083"; // Thành phố Hồ Chí Minh
   const url =
     "http://api.openweathermap.org/data/2.5/forecast?id=" +
     cityId +
@@ -236,14 +237,6 @@ const Dashboard = () => {
     .catch((error) => console.error("Error: ", error));
   return (
     <div className="dashboard">
-      <button
-        className="signout-btn"
-        onClick={() => {
-          signOut(auth);
-        }}
-      >
-        Sign out
-      </button>
       <div className="main-dashboard">
         <GeneralInfo />
         {latest_value !== undefined ? (

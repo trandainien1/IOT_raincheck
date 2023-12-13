@@ -1,0 +1,13 @@
+.chart-container {
+  width: 80%;
+  border-radius: 12px;
+  margin: auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.chart-item {
+  width: 48%;
+  margin-bottom: 20px;
+}

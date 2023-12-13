@@ -3,12 +3,12 @@ import "./TodayWeather.css";
 
 const TodayWeather = ({ value, img }) => {
   return (
-    <div class="today">
-      <div class="value">
-        <p class="tag-heading">Today</p>
-        <p class="forcast-temp">{value} &#8451;</p>
+    <div className="today">
+      <div className="value">
+        <p className="tag-heading">Today</p>
+        <p className="forcast-temp">{value} &#8451;</p>
       </div>
-      <img src={img} class="demonstrated-img" alt="icon" />
+      <img src={img} className="demonstrated-img" alt="icon" />
     </div>
   );
 };

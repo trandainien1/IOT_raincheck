@@ -4,6 +4,10 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { auth } from "./config/fire";
 // import "./App.css";
 import Dashboard from "./components/Dashboard";
+import SideNav from "./components/SideNav";
+import Statistics from "./components/Statistics";
+import { Routes, Route } from 'react-router-dom'
+
 // const auth = getAuth();
 export default class App extends Component {
   constructor(props) {
@@ -38,7 +42,21 @@ export default class App extends Component {
 
   render() {
     return (
-      <div className="App">{this.state.user ? <Dashboard /> : <Login />}</div>
+      <div className="App">
+        {this.state.user ? (
+          <>
+            <SideNav />
+            <Routes>
+              <Route path='/' element={<Dashboard />}></Route>
+              <Route path='/dashboard' element={<Dashboard />}></Route>
+              <Route path='/statistic' element={<Statistics />}></Route>
+            </Routes>
+          </>
+        ) : (
+          <Login />
+        )}
+
+      </div>
     );
   }
 }
