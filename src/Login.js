@@ -47,7 +47,7 @@ const Login = () => {
         <div class="snowflake">❅</div>
         <div class="snowflake">❆</div>
       </div>
-      
+
       <div className="login">
         <img src={logo} alt="rain-check-logo" className="logo" />
         <form action="">

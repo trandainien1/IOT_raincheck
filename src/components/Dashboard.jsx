@@ -8,11 +8,129 @@ import cloudy from "../imgs/cloudy.svg";
 import TodayWeather from "./TodayWeather";
 import { signOut } from "firebase/auth";
 import { auth } from "../config/fire";
+import { useEffect, useState } from "react";
+import {
+  getFirestore,
+  addDoc,
+  collection,
+  onSnapshot,
+  limitToLast,
+  doc,
+  setDoc,
+} from "firebase/firestore";
+// import "../config/fire";
+import { db } from "../config/fire";
 
 const Dashboard = () => {
   const element = { value: 33, img: cloudy, day: "Tomorrow", date: "2/2/2023" };
   const array = new Array(7).fill(element);
-  console.log(array);
+
+  const [inputValue1, setInputValue1] = useState("");
+  const [inputValue2, setInputValue2] = useState("");
+  let [storedValues, setStoredValues] = useState([]);
+  let [count, setCount] = useState(0);
+  let [init, setInit] = useState(true);
+  let [motor, setRunMotor] = useState(false);
+
+  const saveDataToFirestore = async () => {
+    const docRef = await doc(db, "WebController", "VysXNFiC6Vnwrt1uxs2d");
+
+    setDoc(docRef, {
+      motorStatus: motor,
+    });
+
+    if (motor) {
+      alert("Motor is on");
+    } else {
+      alert("Motor is off");
+    }
+  };
+
+  const saveCountToFirestore = async () => {
+    const docRef = await doc(db, "Count", "qGqYRGfZmmlDF7pZlbcr");
+
+    setDoc(docRef, {
+      count: count,
+    });
+  };
+
+  const fetchDataFromFirestore = () => {
+    const query = collection(db, "EspData");
+
+    const unsubscribe = onSnapshot(query, (querySnapshot) => {
+      let temporaryArr = [];
+      querySnapshot.forEach((doc) => {
+        temporaryArr.push(doc.data());
+      });
+      temporaryArr.sort((a, b) => (a.id > b.id ? true : false));
+      console.log("Stored value", temporaryArr);
+
+      setStoredValues(temporaryArr);
+      setCount((count) => count + 1);
+    });
+
+    const query2 = collection(db, "WebController");
+
+    const unsubscribe2 = onSnapshot(query2, (querySnapshot) => {
+      const temporaryArr = [];
+      querySnapshot.forEach((doc) => {
+        console.log(doc.data());
+        temporaryArr.push(doc.data());
+      });
+
+      let data = temporaryArr[0]["motorStatus"];
+      setRunMotor(data);
+    });
+
+    const query3 = collection(db, "Count");
+
+    const unsubscribe3 = onSnapshot(query3, (querySnapshot) => {
+      if (!init) return;
+
+      const temporaryArr = [];
+      querySnapshot.forEach((doc) => {
+        console.log(doc.data());
+        temporaryArr.push(doc.data());
+      });
+
+      console.log("count", temporaryArr);
+      let data = temporaryArr[0]["count"];
+
+      setCount(data);
+      setInit(false);
+    });
+
+    return [unsubscribe, unsubscribe2, unsubscribe3];
+    // return [unsubscribe3];
+  };
+
+  useEffect(() => {
+    const unsubscribes = fetchDataFromFirestore();
+    return () => {
+      unsubscribes[0]();
+      unsubscribes[1]();
+      unsubscribes[2]();
+    };
+  }, []);
+
+  useEffect(() => {
+    saveDataToFirestore();
+  }, [motor]);
+
+  useEffect(() => {
+    saveCountToFirestore();
+  }, [count]);
+
+  console.log("Motor status", motor);
+
+  let latest_value = storedValues[storedValues.length - 1];
+
+  console.log("latest value: ", storedValues[storedValues.length - 1]);
+
+  const activateMotor = () => {
+    setRunMotor((motor) => !motor);
+    // saveDataToFirestore();
+  };
 
   return (
     <div className="dashboard">
@@ -26,18 +144,28 @@ const Dashboard = () => {
       </button>
       <div className="main-dashboard">
         <GeneralInfo />
-        <MeasurementContainer />
+        {latest_value !== undefined ? (
+          <MeasurementContainer
+            light={latest_value.Light}
+            rain={latest_value.Rain}
+            temp={latest_value.Temperature}
+            humidity={latest_value.Humidity}
+          />
+        ) : (
+          <MeasurementContainer />
+        )}
       </div>
       <div className="side-dashboard">
-        <PullClothButton />
+        <PullClothButton activateMotor={activateMotor} />
         <h5>FORCAST THIS WEEK</h5>
         <TodayWeather value={33} img={cloudy} />
-        {array.map((item) => (
+        {array.map((item, index) => (
           <WeatherInfo
             day={item.day}
             date={item.date}
             value={item.value}
             img={cloudy}
+            key={index}
           />
         ))}
       </div>

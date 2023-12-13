@@ -5,7 +5,7 @@ import { Server } from "socket.io";
 const PORT = 4444;
 const server = http.createServer();
 const io = new Server(server, { cors: { origin: "*" } });
-const board = new five.Board({ port: "COM3", repl: false });
+const board = new five.Board({ port: "COM14", repl: false });
 
 let isOn = false;
 io.on("connection", (socket) => {
