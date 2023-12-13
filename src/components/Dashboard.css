@@ -1,3 +1,32 @@
+@import url("https://fonts.googleapis.com/css?family=Inter:400,700");
+
+:root {
+  --black: rgba(0, 0, 0, 1);
+  --blue-zodiac: rgba(25, 38, 85, 1);
+  --shady-lady: rgba(170, 170, 170, 1);
+  --zumthor: rgba(238, 245, 255, 1);
+  --font-size-m: 12px;
+  --font-size-l: 16px;
+  --font-size-xl: 20px;
+  --font-size-xxl: 24px;
+  --font-size-xxxl: 28px;
+  --font-size-xxxxl: 36px;
+  --font-size-xxxxxl: 116px;
+  --font-family-inter: "Inter";
+}
+* {
+  font-family: var(--font-family-inter), sans-serif;
+}
+body {
+  background-color: #b7c4cf;
+  background-repeat: no-repeat;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  justify-items: center;
+  margin-top: 1%;
+}
 .dashboard {
   background-color: #b7c4cf;
   background-repeat: no-repeat;
