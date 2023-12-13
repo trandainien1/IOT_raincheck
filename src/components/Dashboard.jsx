@@ -20,6 +20,8 @@ import {
   limitToLast,
   doc,
   setDoc,
+  collectionGroup,
+  getDocs
 } from "firebase/firestore";
 // import "../config/fire";
 import { db } from "../config/fire";
@@ -83,7 +85,7 @@ const Dashboard = () => {
 
   const fetchDataFromFirestore = () => {
     const query = collection(db, "EspData");
-
+    console.log(query)
     const unsubscribe = onSnapshot(query, (querySnapshot) => {
       let temporaryArr = [];
       querySnapshot.forEach((doc) => {
@@ -180,7 +182,7 @@ const Dashboard = () => {
   const [todayWeather, setTodayWeather] = useState({ value: 0, image: Clouds });
   const [restDays, setRestDays] = useState([]);
 
-  const apiKey = "5ababf5df792a59de71aae06ede839dd";
+  const apiKey = "c0387600d0061b5c23cb9006ded2dc14";
   const cityId = "1566083";
   const url =
     "http://api.openweathermap.org/data/2.5/forecast?id=" +
