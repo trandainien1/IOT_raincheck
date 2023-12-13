@@ -28,8 +28,8 @@ const Dashboard = () => {
   const [inputValue1, setInputValue1] = useState("");
   const [inputValue2, setInputValue2] = useState("");
   let [storedValues, setStoredValues] = useState([]);
-  let [count, setCount] = useState(0);
-  let [init, setInit] = useState(true);
+  let [count, setCount] = useState([]);
+  // let [init, setInit] = useState(true);
   let [motor, setRunMotor] = useState(false);
 
   const saveDataToFirestore = async () => {
@@ -62,11 +62,27 @@ const Dashboard = () => {
       querySnapshot.forEach((doc) => {
         temporaryArr.push(doc.data());
       });
-      temporaryArr.sort((a, b) => (a.id > b.id ? true : false));
+
+      for (let i = 0; i < temporaryArr.length - 1; i++) {
+        for (let j = i + 1; j < temporaryArr.length; j++) {
+          console.log(temporaryArr[i].id, temporaryArr[j].id);
+          if (Number(temporaryArr[i].id) > Number(temporaryArr[j].id)) {
+            let tmp = temporaryArr[i];
+            temporaryArr[i] = temporaryArr[j];
+            temporaryArr[j] = tmp;
+          }
+        }
+      }
+
       console.log("Stored value", temporaryArr);
 
       setStoredValues(temporaryArr);
-      setCount((count) => count + 1);
+      // if (init) {
+      // setInit(false);
+      // setCount(temporaryArr.length);
+      // } else {
+      setCount(temporaryArr.length + 1);
+      // }
     });
 
     const query2 = collection(db, "WebController");
@@ -82,26 +98,25 @@ const Dashboard = () => {
       setRunMotor(data);
     });
 
-    const query3 = collection(db, "Count");
+    // const query3 = collection(db, "Count");
 
-    const unsubscribe3 = onSnapshot(query3, (querySnapshot) => {
-      if (!init) return;
+    // const unsubscribe3 = onSnapshot(query3, (querySnapshot) => {
+    //   if (!init) return;
 
-      const temporaryArr = [];
-      querySnapshot.forEach((doc) => {
-        console.log(doc.data());
-        temporaryArr.push(doc.data());
-      });
+    //   const temporaryArr = [];
+    //   querySnapshot.forEach((doc) => {
+    //     console.log(doc.data());
+    //     temporaryArr.push(doc.data());
+    //   });
 
-      console.log("count", temporaryArr);
-      let data = temporaryArr[0]["count"];
+    //   console.log("count", temporaryArr);
+    //   let data = temporaryArr[0]["count"];
 
-      setCount(data);
-      setInit(false);
-    });
+    //   setInit(false);
+    //   setCount(data);
+    // });
 
-    return [unsubscribe, unsubscribe2, unsubscribe3];
-    // return [unsubscribe3];
+    return [unsubscribe, unsubscribe2];
   };
 
   useEffect(() => {
@@ -109,7 +124,7 @@ const Dashboard = () => {
     return () => {
       unsubscribes[0]();
       unsubscribes[1]();
-      unsubscribes[2]();
+      // unsubscribes[2]();
     };
   }, []);
 
