@@ -25,7 +25,6 @@ import {
 } from "firebase/firestore";
 // import "../config/fire";
 import { db } from "../config/fire";
-import SideNav from "./SideNav";
 
 const formatDate = (dateString) => {
   const dateObject = new Date(dateString);
@@ -86,7 +85,6 @@ const Dashboard = () => {
 
   const fetchDataFromFirestore = () => {
     const query = collection(db, "EspData");
-    console.log(query)
     const unsubscribe = onSnapshot(query, (querySnapshot) => {
       let temporaryArr = [];
       querySnapshot.forEach((doc) => {
@@ -95,7 +93,7 @@ const Dashboard = () => {
 
       for (let i = 0; i < temporaryArr.length - 1; i++) {
         for (let j = i + 1; j < temporaryArr.length; j++) {
-          console.log(temporaryArr[i].id, temporaryArr[j].id);
+          // console.log(temporaryArr[i].id, temporaryArr[j].id);
           if (Number(temporaryArr[i].id) > Number(temporaryArr[j].id)) {
             let tmp = temporaryArr[i];
             temporaryArr[i] = temporaryArr[j];
@@ -121,7 +119,7 @@ const Dashboard = () => {
     const unsubscribe2 = onSnapshot(query2, (querySnapshot) => {
       const temporaryArr = [];
       querySnapshot.forEach((doc) => {
-        console.log(doc.data());
+        // console.log(doc.data());
         temporaryArr.push(doc.data());
       });
 
@@ -167,11 +165,11 @@ const Dashboard = () => {
     saveCountToFirestore();
   }, [count]);
 
-  console.log("Motor status", motor);
+  // console.log("Motor status", motor);
 
   let latest_value = storedValues[storedValues.length - 1];
 
-  console.log("latest value: ", storedValues[storedValues.length - 1]);
+  // console.log("latest value: ", storedValues[storedValues.length - 1]);
 
   const activateMotor = () => {
     setRunMotor((motor) => !motor);
@@ -226,7 +224,6 @@ const Dashboard = () => {
       });
 
       const [firstDay, ...restDays] = dailyForecast;
-      console.log(firstDay);
       setTodayWeather({
         value: firstDay[0].value,
         image: firstDay[0].image,

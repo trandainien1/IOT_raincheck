@@ -1,13 +1,17 @@
 .chart-container {
   width: 80%;
+  height: 100%;
   border-radius: 12px;
   margin: auto;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  align-items: center;
 }
 
 .chart-item {
   width: 48%;
   margin-bottom: 20px;
+  padding-left: 20px;
+  padding-top: 50px;
 }
