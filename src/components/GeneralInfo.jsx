@@ -47,7 +47,7 @@ const GeneralInfo = () => {
       setCurrentDate(getCurrentDate());
     }, 60000); // Update the date every minute
 
-    const apiKey = "7f168c708e5a658cef2894d16b56d09b";
+    const apiKey = "5ababf5df792a59de71aae06ede839dd";
     const cityId = "1566083";
     const url =
       "http://api.openweathermap.org/data/2.5/forecast?id=" +

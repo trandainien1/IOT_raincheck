@@ -181,7 +181,7 @@ const Dashboard = () => {
   const [todayWeather, setTodayWeather] = useState({ value: 0, image: Clouds });
   const [restDays, setRestDays] = useState([]);
 
-  const apiKey = "7f168c708e5a658cef2894d16b56d09b";
+  const apiKey = "5ababf5df792a59de71aae06ede839dd";
   const cityId = "1566083"; // Thành phố Hồ Chí Minh
   const url =
     "http://api.openweathermap.org/data/2.5/forecast?id=" +
