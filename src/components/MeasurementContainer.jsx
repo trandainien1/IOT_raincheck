@@ -6,24 +6,37 @@ import humi_img from "../imgs/humidity.svg";
 import light_img from "../imgs/light.svg";
 import rain_img from "../imgs/rain.svg";
 
-const MeasurementContainer = () => {
+const MeasurementContainer = ({
+  temp = 33,
+  humidity = 123,
+  light = "Day",
+  rain = 1024,
+}) => {
   return (
     <>
       <div className="temp-humid">
         <MeasurementCard
           className="Temperature"
-          value={String(33) + "℃"}
+          value={String(temp) + "℃"}
           img_url={temp_img}
         />
         <MeasurementCard
           className="Humidity"
-          value={String(123) + "%"}
+          value={String(humidity) + "%"}
           img_url={humi_img}
         />
       </div>
       <div className="light-rain">
-        <MeasurementCard className="Light" value={33} img_url={light_img} />
-        <MeasurementCard className="Rain" value="Not rain" img_url={rain_img} />
+        {light == "1" ? (
+          <MeasurementCard
+            className="Light"
+            value="Night"
+            img_url={light_img}
+          />
+        ) : (
+          <MeasurementCard className="Light" value="Day" img_url={light_img} />
+        )}
+        <MeasurementCard className="Rain" value={rain} img_url={rain_img} />
       </div>
     </>
   );

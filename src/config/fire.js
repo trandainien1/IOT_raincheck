@@ -1,5 +1,10 @@
-import { initializeApp,getApp, getApps } from "firebase/app";
-import { getAuth,createUserWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
+import firebase from "firebase/compat/app";
+import "firebase/compat/firestore";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  onAuthStateChanged,
+} from "firebase/auth";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -12,7 +17,8 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
+const app = firebase.initializeApp(firebaseConfig);
 const auth = getAuth(app);
+const db = app.firestore();
 
-export {auth};
+export { auth, db };
