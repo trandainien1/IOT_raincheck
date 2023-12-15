@@ -80,6 +80,9 @@ const GeneralInfo = () => {
     // };
 
     // --------------------------- Hy fetch --------------------
+    return () => {
+      clearInterval(timeIntervalId);
+    };
   }, []);
 
   return (

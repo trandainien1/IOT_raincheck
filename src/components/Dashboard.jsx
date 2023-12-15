@@ -23,8 +23,8 @@ import {
   collectionGroup,
   getDocs,
 } from "firebase/firestore";
-// import "../config/fire";
 import { db } from "../config/fire";
+import Timer from "./Timer";
 
 const formatDate = (dateString) => {
   const dateObject = new Date(dateString);
@@ -53,13 +53,11 @@ const formatDate = (dateString) => {
 };
 
 const Dashboard = () => {
-  // Niên
   const [inputValue1, setInputValue1] = useState("");
   const [inputValue2, setInputValue2] = useState("");
   let [storedValues, setStoredValues] = useState([]);
   let [count, setCount] = useState([]);
-  // let [init, setInit] = useState(true);
-  let [motor, setRunMotor] = useState(false);
+  let [motor, setRunMotor] = useState(null);
 
   const saveDataToFirestore = async () => {
     const docRef = await doc(db, "WebController", "VysXNFiC6Vnwrt1uxs2d");
@@ -68,11 +66,11 @@ const Dashboard = () => {
       motorStatus: motor,
     });
 
-    if (motor) {
-      alert("Motor is on");
-    } else {
-      alert("Motor is off");
-    }
+    // if (motor) {
+    //   alert("Motor is on");
+    // } else {
+    //   alert("Motor is off");
+    // }
   };
 
   const saveCountToFirestore = async () => {
@@ -114,31 +112,13 @@ const Dashboard = () => {
     const unsubscribe2 = onSnapshot(query2, (querySnapshot) => {
       const temporaryArr = [];
       querySnapshot.forEach((doc) => {
-        // console.log(doc.data());
         temporaryArr.push(doc.data());
       });
 
       let data = temporaryArr[0]["motorStatus"];
-      setRunMotor(data);
+      console.log("Nạp dữ liệu từ motor từ firestore");
+      if (motor === undefined) setRunMotor(data);
     });
-
-    // const query3 = collection(db, "Count");
-
-    // const unsubscribe3 = onSnapshot(query3, (querySnapshot) => {
-    //   if (!init) return;
-
-    //   const temporaryArr = [];
-    //   querySnapshot.forEach((doc) => {
-    //     console.log(doc.data());
-    //     temporaryArr.push(doc.data());
-    //   });
-
-    //   console.log("count", temporaryArr);
-    //   let data = temporaryArr[0]["count"];
-
-    //   setInit(false);
-    //   setCount(data);
-    // });
 
     return [unsubscribe, unsubscribe2];
   };
@@ -148,7 +128,6 @@ const Dashboard = () => {
     return () => {
       unsubscribes[0]();
       unsubscribes[1]();
-      // unsubscribes[2]();
     };
   }, []);
 
@@ -160,19 +139,12 @@ const Dashboard = () => {
     saveCountToFirestore();
   }, [count]);
 
-  // console.log("Motor status", motor);
-  console.log("nien", storedValues);
-
   let latest_value = storedValues[storedValues.length - 1];
 
-  // console.log("latest value: ", storedValues[storedValues.length - 1]);
-
   const activateMotor = () => {
+    console.log("Chuyển trạng thái motor: ", motor);
     setRunMotor((motor) => !motor);
-    // saveDataToFirestore();
   };
-
-  // Hy
 
   const [todayWeather, setTodayWeather] = useState({ value: 0, image: Clouds });
   const [restDays, setRestDays] = useState([]);
@@ -247,6 +219,7 @@ const Dashboard = () => {
         ) : (
           <MeasurementContainer />
         )}
+        <Timer activateMotor={activateMotor} />
       </div>
       <div className="side-dashboard">
         <PullClothButton activateMotor={activateMotor} />

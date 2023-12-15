@@ -7,10 +7,9 @@ import Dashboard from "./components/Dashboard";
 import SideNav from "./components/SideNav";
 import Statistics from "./components/Statistics";
 import { Routes, Route } from "react-router-dom";
-// import { db } from "./config/fire";
-// import { collection, getDocs, onSnapshot } from "@firebase/firestore";
 
 // const auth = getAuth();
+
 export default class App extends Component {
   constructor(props) {
     super(props);
