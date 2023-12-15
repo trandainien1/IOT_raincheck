@@ -21,7 +21,7 @@ import {
   doc,
   setDoc,
   collectionGroup,
-  getDocs
+  getDocs,
 } from "firebase/firestore";
 // import "../config/fire";
 import { db } from "../config/fire";
@@ -107,11 +107,6 @@ const Dashboard = () => {
       setCount(temporaryArr.length + 1);
       console.log("Count", count);
       setStoredValues(temporaryArr);
-      // if (init) {
-      // setInit(false);
-      // setCount(temporaryArr.length);
-      // } else {
-      // }
     });
 
     const query2 = collection(db, "WebController");
@@ -166,6 +161,7 @@ const Dashboard = () => {
   }, [count]);
 
   // console.log("Motor status", motor);
+  console.log("nien", storedValues);
 
   let latest_value = storedValues[storedValues.length - 1];
 
@@ -190,48 +186,53 @@ const Dashboard = () => {
     apiKey +
     "&units=imperial";
 
-  fetch(url)
-    .then((response) => {
-      if (response.status === 429) {
-        throw new Error("Too many requests");
-      }
-      return response.json();
-    })
-    .then((data) => {
-      const collection = data.list.filter((item) =>
-        item.dt_txt.includes("12:00:00")
-      );
+  // -------------------------- Hy fetch --------------------
+  // fetch(url)
+  //   .then((response) => {
+  //     if (response.status === 429) {
+  //       throw new Error("Too many requests");
+  //     }
+  //     return response.json();
+  //   })
+  //   .then((data) => {
+  //     const collection = data.list.filter((item) =>
+  //       item.dt_txt.includes("12:00:00")
+  //     );
 
-      const weatherImages = {
-        Clouds: Clouds,
-        Rain: Rain,
-        Drizzle: Drizzle,
-        Thunderstorm: Thunderstorm,
-      };
+  //     const weatherImages = {
+  //       Clouds: Clouds,
+  //       Rain: Rain,
+  //       Drizzle: Drizzle,
+  //       Thunderstorm: Thunderstorm,
+  //     };
 
-      // Use it in your code like this:
-      const dailyForecast = collection.map((item) => {
-        const image = weatherImages[item.weather[0].main];
-        var val = ((item.main.temp_max - 32) * 5) / 9;
-        return [
-          {
-            day: formatDate(item.dt_txt).dayOfWeek,
-            date: formatDate(item.dt_txt).formattedDate,
-            value: val.toFixed(1),
-            image: image,
-          },
-        ];
-      });
+  //     // Use it in your code like this:
+  //     const dailyForecast = collection.map((item) => {
+  //       const image = weatherImages[item.weather[0].main];
+  //       var val = ((item.main.temp_max - 32) * 5) / 9;
+  //       return [
+  //         {
+  //           day: formatDate(item.dt_txt).dayOfWeek,
+  //           date: formatDate(item.dt_txt).formattedDate,
+  //           value: val.toFixed(1),
+  //           image: image,
+  //         },
+  //       ];
+  //     });
 
-      const [firstDay, ...restDays] = dailyForecast;
-      setTodayWeather({
-        value: firstDay[0].value,
-        image: firstDay[0].image,
-      });
-      const tmp = restDays.flat(1);
-      setRestDays(tmp);
-    })
-    .catch((error) => console.error("Error: ", error));
+  //     const [firstDay, ...restDays] = dailyForecast;
+  //     setTodayWeather({
+  //       value: firstDay[0].value,
+  //       image: firstDay[0].image,
+  //     });
+  //     const tmp = restDays.flat(1);
+  //     console.log(tmp);
+  //     setRestDays(tmp);
+  //   })
+  //   .catch((error) => console.error("Error: ", error));
+
+  // -------------------------- Hy fetch --------------------
+
   return (
     <div className="dashboard">
       <div className="main-dashboard">
