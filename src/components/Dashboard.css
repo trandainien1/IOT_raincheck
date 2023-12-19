@@ -47,7 +47,7 @@ body {
   display: flex;
   flex-direction: column;
   height: 92vh;
-  width: 50%;
+  width: 54%;
   padding: 0 2%;
   /* overflow-y: scroll; */
 }
@@ -81,4 +81,7 @@ h5 {
 .slider {
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 90%;
 }

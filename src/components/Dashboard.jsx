@@ -301,7 +301,9 @@ const Dashboard = () => {
               backgroundColor: "white",
               padding: "8px",
               borderRadius: "12px",
-              margin: "12px",
+              margin: "6px",
+              width: '44%',
+              alignItems: 'center'
             }}
           >
             <WaterDropIcon color="primary" />
@@ -322,7 +324,9 @@ const Dashboard = () => {
               backgroundColor: "white",
               padding: "8px",
               borderRadius: "12px",
-              margin: "12px",
+              margin: "6px",
+              width: '44%',
+              alignItems: 'center'
             }}
           >
             <SettingsBackupRestoreIcon color="primary" />
@@ -336,7 +340,7 @@ const Dashboard = () => {
           </Box>
         </div>
 
-        <Timer activateMotor={activateMotor} sx={{ width: "auto" }} />
+        <Timer activateMotor={activateMotor} sx={{ width: "auto", margin: 'auto' }} />
       </div>
       <div className="side-dashboard">
         <PullClothButton activateMotor={activateMotor} />
