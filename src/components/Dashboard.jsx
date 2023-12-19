@@ -280,7 +280,7 @@ const Dashboard = () => {
 
   return (
     <div className="dashboard">
-      <div className="main-dashboard" style={{ overflow: 'auto' }}>
+      <div className="main-dashboard" style={{ overflow: "auto" }}>
         <GeneralInfo />
         {latest_value !== undefined ? (
           <MeasurementContainer
@@ -294,7 +294,15 @@ const Dashboard = () => {
         )}
         <div className="slider">
           <Box
-            sx={{ display: "flex", gap: "12px", justifyContent: "space-between", backgroundColor: "white", padding: "20px", borderRadius: "12px", margin: '12px' }}
+            sx={{
+              display: "flex",
+              gap: "12px",
+              justifyContent: "space-between",
+              backgroundColor: "white",
+              padding: "8px",
+              borderRadius: "12px",
+              margin: "12px",
+            }}
           >
             <WaterDropIcon color="primary" />
             <CustomSlider
@@ -303,11 +311,19 @@ const Dashboard = () => {
               fetchData={fetchMotorPullTime}
               min={1}
               max={50}
-              side='small'
+              side="small"
             />
           </Box>
           <Box
-            sx={{ display: "flex", gap: "12px", justifyContent: "space-between", backgroundColor: "white", padding: "20px", borderRadius: "12px", margin: '12px' }}
+            sx={{
+              display: "flex",
+              gap: "12px",
+              justifyContent: "space-between",
+              backgroundColor: "white",
+              padding: "8px",
+              borderRadius: "12px",
+              margin: "12px",
+            }}
           >
             <SettingsBackupRestoreIcon color="primary" />
             <CustomSlider
@@ -320,7 +336,7 @@ const Dashboard = () => {
           </Box>
         </div>
 
-        <Timer activateMotor={activateMotor} sx={{ width: 'auto' }} />
+        <Timer activateMotor={activateMotor} sx={{ width: "auto" }} />
       </div>
       <div className="side-dashboard">
         <PullClothButton activateMotor={activateMotor} />
