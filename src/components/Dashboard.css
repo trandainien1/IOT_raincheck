@@ -77,3 +77,8 @@ h5 {
   right: 0;
   top: 0;
 }
+
+.slider {
+  display: flex;
+  flex-direction: row;
+}

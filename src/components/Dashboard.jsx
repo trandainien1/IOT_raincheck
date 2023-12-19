@@ -292,32 +292,35 @@ const Dashboard = () => {
         ) : (
           <MeasurementContainer />
         )}
-        <Box
-          sx={{ display: "flex", gap: "12px", justifyContent: "space-between" }}
-        >
-          <WaterDropIcon color="primary" />
-          <CustomSlider
-            marks={motor_time_marks}
-            saveData={saveMotorPullTimeToFireStore}
-            fetchData={fetchMotorPullTime}
-            min={1}
-            max={50}
-          />
-        </Box>
-        <Box
-          sx={{ display: "flex", gap: "12px", justifyContent: "space-between" }}
-        >
-          <SettingsBackupRestoreIcon color="primary" />
-          <CustomSlider
-            marks={rain_limit_marks}
-            saveData={saveRainLimitToFireStore}
-            fetchData={fetchRainLimit}
-            min={0}
-            max={1024}
-          />
-        </Box>
+        <div className="slider">
+          <Box
+            sx={{ display: "flex", gap: "12px", justifyContent: "space-between", backgroundColor: "white", padding: "20px", borderRadius: "12px", margin: '12px' }}
+          >
+            <WaterDropIcon color="primary" />
+            <CustomSlider
+              marks={motor_time_marks}
+              saveData={saveMotorPullTimeToFireStore}
+              fetchData={fetchMotorPullTime}
+              min={1}
+              max={50}
+              side='small'
+            />
+          </Box>
+          <Box
+            sx={{ display: "flex", gap: "12px", justifyContent: "space-between", backgroundColor: "white", padding: "20px", borderRadius: "12px", margin: '12px' }}
+          >
+            <SettingsBackupRestoreIcon color="primary" />
+            <CustomSlider
+              marks={rain_limit_marks}
+              saveData={saveRainLimitToFireStore}
+              fetchData={fetchRainLimit}
+              min={0}
+              max={1024}
+            />
+          </Box>
+        </div>
 
-        <Timer activateMotor={activateMotor} />
+        <Timer activateMotor={activateMotor} sx={{ width: 'auto' }} />
       </div>
       <div className="side-dashboard">
         <PullClothButton activateMotor={activateMotor} />

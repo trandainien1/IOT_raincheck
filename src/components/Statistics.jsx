@@ -79,7 +79,7 @@ const Statistics = () => {
   const createLineChart = (canvasId, label, borderColor, data, type = "line") => {
     const ctx = document.getElementById(canvasId).getContext("2d");
 
-    ctx.canvas.width = 550; // Set your desired width
+    ctx.canvas.width = 520; // Set your desired width
     ctx.canvas.height = 200; // Set your desired height
     // Get the existing chart instance
     const existingChart = Chart.getChart(ctx);
