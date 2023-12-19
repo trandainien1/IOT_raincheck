@@ -49,6 +49,7 @@ body {
   height: 92vh;
   width: 50%;
   padding: 0 2%;
+  overflow: scroll;
 }
 
 h5 {

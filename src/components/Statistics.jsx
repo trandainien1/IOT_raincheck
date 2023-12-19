@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import "./Statistics.css";
-import { Line } from "react-chartjs-2";
 import {
   getFirestore,
   addDoc,
@@ -77,7 +76,7 @@ const Statistics = () => {
   var temperatureData = latest100.map((data) => parseFloat(data.Temperature));
   console.log(datasets);
 
-  const createLineChart = (canvasId, label, borderColor, data) => {
+  const createLineChart = (canvasId, label, borderColor, data, type = "line") => {
     const ctx = document.getElementById(canvasId).getContext("2d");
 
     ctx.canvas.width = 550; // Set your desired width
@@ -92,7 +91,7 @@ const Statistics = () => {
 
     // Create a new chart
     return new Chart(ctx, {
-      type: "line",
+      type: type,
       data: {
         labels: labels,
         datasets: [
@@ -102,6 +101,7 @@ const Statistics = () => {
             borderWidth: 2,
             fill: false,
             data: data,
+            tension: 0.1
           },
         ],
       },
@@ -118,7 +118,7 @@ const Statistics = () => {
   };
 
   useEffect(() => {
-    createLineChart("humidChart", "Humidity", "blue", humidityData);
+    createLineChart("humidChart", "Humidity", "blue", humidityData, "bar");
     createLineChart("rainChart", "Rain", "green", rainData);
     createLineChart("lightChart", "Light", "orange", lightData);
     createLineChart("temperatureChart", "Temperature", "red", temperatureData);

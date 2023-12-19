@@ -280,7 +280,7 @@ const Dashboard = () => {
 
   return (
     <div className="dashboard">
-      <div className="main-dashboard">
+      <div className="main-dashboard" style={{ overflow: 'auto' }}>
         <GeneralInfo />
         {latest_value !== undefined ? (
           <MeasurementContainer
