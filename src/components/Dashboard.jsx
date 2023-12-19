@@ -25,6 +25,10 @@ import {
 } from "firebase/firestore";
 import { db } from "../config/fire";
 import Timer from "./Timer";
+import CustomSlider from "./CustomSlider";
+import WaterDropIcon from "@mui/icons-material/WaterDrop";
+import { Box } from "@mui/material";
+import SettingsBackupRestoreIcon from "@mui/icons-material/SettingsBackupRestore";
 
 const formatDate = (dateString) => {
   const dateObject = new Date(dateString);
@@ -53,11 +57,38 @@ const formatDate = (dateString) => {
 };
 
 const Dashboard = () => {
+  // for sliders
+  const motor_time_marks = [
+    {
+      value: 1,
+      label: "1s",
+    },
+    {
+      value: 25,
+      label: "25s",
+    },
+    {
+      value: 50,
+      label: "50s",
+    },
+  ];
+
+  const totalMarks = 5;
+  const maxValue = 1024;
+  const step = maxValue / (totalMarks - 1);
+
+  const rain_limit_marks = Array.from({ length: totalMarks }, (_, i) => ({
+    value: i * step,
+    label: `${i * step}`,
+  }));
+
+  // console.log(marks);
+
   const [inputValue1, setInputValue1] = useState("");
   const [inputValue2, setInputValue2] = useState("");
   let [storedValues, setStoredValues] = useState([]);
   let [count, setCount] = useState([]);
-  let [motor, setRunMotor] = useState(null);
+  let [motor, setRunMotor] = useState(false);
 
   const saveDataToFirestore = async () => {
     const docRef = await doc(db, "WebController", "VysXNFiC6Vnwrt1uxs2d");
@@ -65,12 +96,14 @@ const Dashboard = () => {
     setDoc(docRef, {
       motorStatus: motor,
     });
+  };
 
-    // if (motor) {
-    //   alert("Motor is on");
-    // } else {
-    //   alert("Motor is off");
-    // }
+  const saveMotorPullTimeToFireStore = async (value) => {
+    const docRef = await doc(db, "WebController", "K0aemSyiC5SAJB5Qz6RH");
+
+    setDoc(docRef, {
+      motorPullTime: value,
+    });
   };
 
   const saveCountToFirestore = async () => {
@@ -121,6 +154,46 @@ const Dashboard = () => {
     });
 
     return [unsubscribe, unsubscribe2];
+  };
+
+  const fetchMotorPullTime = (setDefault) => {
+    const docRef = doc(db, "WebController", "K0aemSyiC5SAJB5Qz6RH");
+
+    const unsubscribe = onSnapshot(docRef, (docSnap) => {
+      if (docSnap.exists()) {
+        console.log("Motor Pull Time:", docSnap.data().motorPullTime);
+        setDefault(docSnap.data().motorPullTime);
+      } else {
+        console.log("No such document!");
+      }
+    });
+
+    // Remember to unsubscribe when the component unmounts
+    return unsubscribe;
+  };
+
+  const fetchRainLimit = (setDefault) => {
+    const docRef = doc(db, "WebController", "810hsIvfih8cn515waHm");
+
+    const unsubscribe = onSnapshot(docRef, (docSnap) => {
+      if (docSnap.exists()) {
+        console.log("Rain limit:", docSnap.data().rainLimit);
+        setDefault(docSnap.data().rainLimit);
+      } else {
+        console.log("No such document!");
+      }
+    });
+
+    // Remember to unsubscribe when the component unmounts
+    return unsubscribe;
+  };
+
+  const saveRainLimitToFireStore = async (value) => {
+    const docRef = await doc(db, "WebController", "810hsIvfih8cn515waHm");
+
+    setDoc(docRef, {
+      rainLimit: value,
+    });
   };
 
   useEffect(() => {
@@ -219,6 +292,31 @@ const Dashboard = () => {
         ) : (
           <MeasurementContainer />
         )}
+        <Box
+          sx={{ display: "flex", gap: "12px", justifyContent: "space-between" }}
+        >
+          <WaterDropIcon color="primary" />
+          <CustomSlider
+            marks={motor_time_marks}
+            saveData={saveMotorPullTimeToFireStore}
+            fetchData={fetchMotorPullTime}
+            min={1}
+            max={50}
+          />
+        </Box>
+        <Box
+          sx={{ display: "flex", gap: "12px", justifyContent: "space-between" }}
+        >
+          <SettingsBackupRestoreIcon color="primary" />
+          <CustomSlider
+            marks={rain_limit_marks}
+            saveData={saveRainLimitToFireStore}
+            fetchData={fetchRainLimit}
+            min={0}
+            max={1024}
+          />
+        </Box>
+
         <Timer activateMotor={activateMotor} />
       </div>
       <div className="side-dashboard">
