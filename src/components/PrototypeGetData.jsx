@@ -6,7 +6,6 @@ import {
   collection,
   onSnapshot,
 } from "firebase/firestore";
-import { getDocs } from "firebase/firestore";
 import { io } from "socket.io-client";
 
 const PrototypeGetData = () => {

@@ -1,15 +1,10 @@
 import React, { useEffect, useState } from "react";
 import "./Statistics.css";
 import {
-  getFirestore,
-  addDoc,
   collection,
   onSnapshot,
-  limitToLast,
   doc,
   setDoc,
-  collectionGroup,
-  getDocs,
 } from "firebase/firestore";
 // import "../config/fire";
 import { db } from "../config/fire";
@@ -98,10 +93,12 @@ const Statistics = () => {
           {
             label: label,
             borderColor: borderColor,
+            backgroundColor: borderColor,
             borderWidth: 2,
             fill: false,
+            hoverOffset: 4,
             data: data,
-            tension: 0.1
+            tension: 0.1,
           },
         ],
       },
