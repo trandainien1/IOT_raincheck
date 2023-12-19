@@ -1,0 +1,15 @@
+.timer {
+  background-color: #fff;
+  margin: 12px 4px;
+  border-radius: 12px;
+  display: flex;
+  padding-right: 12px;
+  justify-content: center;
+  align-items: center;
+}
+
+.timer h6 {
+  font-size: 16px;
+  color: var(--blue-zodiac);
+  padding: 12px;
+}

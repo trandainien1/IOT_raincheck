@@ -118,10 +118,10 @@ const Statistics = () => {
   };
 
   useEffect(() => {
-    createLineChart("humidChart", "Humidity", "blue", humidityData, "bar");
-    createLineChart("rainChart", "Rain", "green", rainData);
-    createLineChart("lightChart", "Light", "orange", lightData);
-    createLineChart("temperatureChart", "Temperature", "red", temperatureData);
+    createLineChart("humidChart", "Humidity", 'rgb(75, 192, 192)', humidityData, "bar");
+    createLineChart("rainChart", "Rain", 'rgba(75, 192, 192, 0.2)', rainData);
+    createLineChart("lightChart", "Light", 'rgba(153, 102, 255, 0.2)', lightData);
+    createLineChart("temperatureChart", "Temperature", 'rgba(255, 159, 64, 0.2)', temperatureData);
   }, [latest100]);
   return (
     <div className="chart-container">

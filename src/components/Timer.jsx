@@ -8,6 +8,7 @@ import { TextField } from "@mui/material";
 import { useState, useEffect } from "react";
 import { db } from "../config/fire";
 import { setDoc, doc, onSnapshot } from "@firebase/firestore";
+import "./Timer.css";
 
 const getCurrentTime = () => {
   const currentTime = new Date();
@@ -90,7 +91,8 @@ const Timer = ({ activateMotor }) => {
   }, [currentTime, settingTime]);
 
   return (
-    <div>
+    <div className="timer">
+      <h6>Set timer</h6>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <DemoContainer components={["TimePicker"]}>
           <TimePicker

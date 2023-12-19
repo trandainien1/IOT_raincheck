@@ -27,7 +27,7 @@ const CustomSlider = ({ marks, saveData, fetchData, max, min }) => {
             setDefaultValue(new_value);
           }}
           sx={{
-            width: "180px",
+            width: "220px",
           }}
         />
       </Box>

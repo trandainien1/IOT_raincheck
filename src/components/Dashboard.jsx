@@ -340,7 +340,7 @@ const Dashboard = () => {
           </Box>
         </div>
 
-        <Timer activateMotor={activateMotor} sx={{ width: "auto", margin: 'auto' }} />
+        <Timer activateMotor={activateMotor} />
       </div>
       <div className="side-dashboard">
         <PullClothButton activateMotor={activateMotor} />
