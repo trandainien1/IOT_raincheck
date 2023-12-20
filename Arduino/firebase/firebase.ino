@@ -164,7 +164,7 @@ void loop() {
     payload.get(jsonData, "fields/motorPullTime/integerValue", true);
     Serial.println(jsonData.stringValue);
 
-    motorPullTime = jsonData.stringValue.toInt() * 1000 - 800;
+    motorPullTime = jsonData.stringValue.toInt() * 1000;
     Serial.println("Motor pull time: ");
     Serial.println(motorPullTime);
   }
@@ -188,7 +188,7 @@ void loop() {
     String runMotor = jsonData.stringValue;
     
     if(runMotor == "true"){
-      digitalWrite(MOTORDCPIN, HIGH);
+      digitalWrite(MOTORDCPIN, 100);
       delay(motorPullTime);
       digitalWrite(MOTORDCPIN, LOW);
       // push notification to phone
@@ -239,17 +239,20 @@ void loop() {
   Serial.println(light_intensity);
   Serial.println(rain);
 
+  // ------------------------------   LCD Display ---------------------------------------
+  lcd.setCursor(0, 0);               // Set the cursor to the first column and first row
+  lcd.print("T('C):");
+  lcd.print(temperature);
+  lcd.print(" H:");
+  lcd.print(humidity);
+  lcd.setCursor(0,1);
+  lcd.print("L:");
+  lcd.print(light_intensity);
+  lcd.print(" Rain:");
+  lcd.print(rain);
+  
   // Check if the values are valid (not NaN)
   if (!isnan(temperature) && !isnan(humidity) && !isnan(light_intensity) && !isnan(rain)) {
-
-    // ----------------------- If rain -> Activate Motor
-    if (rain < rainLimit) {
-      digitalWrite(MOTORDCPIN, HIGH);
-      delay(motorPullTime);
-      digitalWrite(MOTORDCPIN, LOW);
-       // ------------ Push notification to Phone ----------------
-      sendRequest();
-    }
 
     // Set the 'Temperature', 'Humidity', 'Rain' and 'Light' fields in the FirebaseJson object
     content.set("fields/Temperature/stringValue", String(temperature, 2));
@@ -267,22 +270,20 @@ void loop() {
     } else {
         Serial.println(fbdo.errorReason());
     }
+
+    // ----------------------- If rain -> Activate Motor
+    if (rain < rainLimit) {
+      digitalWrite(MOTORDCPIN, 100);
+      delay(motorPullTime);
+      digitalWrite(MOTORDCPIN, LOW);
+       // ------------ Push notification to Phone ----------------
+      sendRequest();
+    }
   } else {
     Serial.println("Failed to read data.");
   }
 
-  // ------------------------------   LCD Display ---------------------------------------
-  lcd.setCursor(0, 0);               // Set the cursor to the first column and first row
-  lcd.print("T('C):");
-  lcd.print(temperature);
-  lcd.print(" H:");
-  lcd.print(humidity);
-  lcd.setCursor(0,1);
-  lcd.print("L:");
-  lcd.print(light_intensity);
-  lcd.print(" Rain:");
-  lcd.print(rain);
   counter = counter + 1;
   // Delay before the next reading
-  delay(2000);
+  
 }
