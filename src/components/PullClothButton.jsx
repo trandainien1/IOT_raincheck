@@ -9,6 +9,7 @@ const PullClothButton = ({ activateMotor }) => {
         onClick={() => {
           console.log("clicked");
           activateMotor();
+          setTimeout(activateMotor, 3000);
         }}
       >
         <i className="bx bx-horizontal-left btn-icon"></i>
