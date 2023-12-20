@@ -217,7 +217,7 @@ const Dashboard = () => {
   const [location, setLocation] = useState("Loading...");
   const [wind, setWind] = useState("");
   const [pressure, setPressure] = useState(0);
-  const apiKey = "5ababf5df792a59de71aae06ede839dd";
+  const apiKey = "fc2719166a6225c86324ff44ccf70626";
   const cityId = "1566083"; // Thành phố Hồ Chí Minh
   const url =
     "http://api.openweathermap.org/data/2.5/forecast?id=" +
@@ -226,14 +226,10 @@ const Dashboard = () => {
     apiKey +
     "&units=imperial";
 
-  // -------------------------- Hy fetch --------------------
+  // // -------------------------- Hy fetch --------------------
   fetch(url)
-    .then((response) => {
-      if (response.status === 429) {
-        throw new Error("Too many requests");
-      }
-      return response.json();
-    })
+    .then((response) =>
+      response.json())
     .then((data) => {
       const collection = data.list.filter((item) =>
         item.dt_txt.includes("12:00:00")
@@ -254,7 +250,6 @@ const Dashboard = () => {
         Thunderstorm: Thunderstorm,
       };
 
-      // Use it in your code like this:
       const dailyForecast = collection.map((item) => {
         const image = weatherImages[item.weather[0].main];
         var val = ((item.main.temp_max - 32) * 5) / 9;

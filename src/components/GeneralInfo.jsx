@@ -36,6 +36,20 @@ const GeneralInfo = ({ location = "Loading", wind = "Loading", pressure = "Loadi
   const [currentTime, setCurrentTime] = useState(getFormattedTime());
   const [currentDate, setCurrentDate] = useState(getCurrentDate());
 
+  useEffect(() => {
+    const timeIntervalId = setInterval(() => {
+      setCurrentTime(getFormattedTime());
+    }, 1000);
+
+    const dateIntervalId = setInterval(() => {
+      setCurrentDate(getCurrentDate());
+    }, 60000); // Update the date every minute	
+
+    return () => {
+      clearInterval(timeIntervalId);
+      clearInterval(dateIntervalId);
+    };
+  }, []);
   return (
     <div className="general-info">
       <div className="location-date">
