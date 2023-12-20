@@ -10,12 +10,7 @@ import Drizzle from "../imgs/cloudy.svg";
 import Thunderstorm from "../imgs/thunder.svg";
 import TodayWeather from "./TodayWeather";
 import { useEffect, useState } from "react";
-import {
-  collection,
-  onSnapshot,
-  doc,
-  setDoc,
-} from "firebase/firestore";
+import { collection, onSnapshot, doc, setDoc } from "firebase/firestore";
 import { db } from "../config/fire";
 import Timer from "./Timer";
 import CustomSlider from "./CustomSlider";
@@ -240,12 +235,12 @@ const Dashboard = () => {
       );
 
       const cityName = data.city.name + ", " + data.city.country;
-      const wind = (collection[0].wind.speed * 3.6).toFixed(1) + " km/h"
-      const pressure = (collection[0].main.pressure) + " hpa"
+      const wind = (collection[0].wind.speed * 3.6).toFixed(1) + " km/h";
+      const pressure = collection[0].main.pressure + " hpa";
 
-      setLocation(cityName)
-      setWind(wind)
-      setPressure(pressure)
+      setLocation(cityName);
+      setWind(wind);
+      setPressure(pressure);
 
       const weatherImages = {
         Clouds: Clouds,
@@ -305,8 +300,8 @@ const Dashboard = () => {
               padding: "8px",
               borderRadius: "12px",
               margin: "6px",
-              width: '44%',
-              alignItems: 'center'
+              width: "44%",
+              alignItems: "center",
             }}
           >
             <WaterDropIcon color="primary" />
@@ -328,8 +323,8 @@ const Dashboard = () => {
               padding: "8px",
               borderRadius: "12px",
               margin: "6px",
-              width: '44%',
-              alignItems: 'center'
+              width: "44%",
+              alignItems: "center",
             }}
           >
             <SettingsBackupRestoreIcon color="primary" />
