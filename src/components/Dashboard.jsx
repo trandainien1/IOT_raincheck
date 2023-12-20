@@ -9,19 +9,12 @@ import Rain from "../imgs/rain.svg";
 import Drizzle from "../imgs/cloudy.svg";
 import Thunderstorm from "../imgs/thunder.svg";
 import TodayWeather from "./TodayWeather";
-import { signOut } from "firebase/auth";
-import { auth } from "../config/fire";
 import { useEffect, useState } from "react";
 import {
-  getFirestore,
-  addDoc,
   collection,
   onSnapshot,
-  limitToLast,
   doc,
   setDoc,
-  collectionGroup,
-  getDocs,
 } from "firebase/firestore";
 import { db } from "../config/fire";
 import Timer from "./Timer";
@@ -221,7 +214,9 @@ const Dashboard = () => {
 
   const [todayWeather, setTodayWeather] = useState({ value: 0, image: Clouds });
   const [restDays, setRestDays] = useState([]);
-
+  const [location, setLocation] = useState("Loading...");
+  const [wind, setWind] = useState("");
+  const [pressure, setPressure] = useState(0);
   const apiKey = "5ababf5df792a59de71aae06ede839dd";
   const cityId = "1566083"; // Thành phố Hồ Chí Minh
   const url =
@@ -232,56 +227,64 @@ const Dashboard = () => {
     "&units=imperial";
 
   // -------------------------- Hy fetch --------------------
-  // fetch(url)
-  //   .then((response) => {
-  //     if (response.status === 429) {
-  //       throw new Error("Too many requests");
-  //     }
-  //     return response.json();
-  //   })
-  //   .then((data) => {
-  //     const collection = data.list.filter((item) =>
-  //       item.dt_txt.includes("12:00:00")
-  //     );
+  fetch(url)
+    .then((response) => {
+      if (response.status === 429) {
+        throw new Error("Too many requests");
+      }
+      return response.json();
+    })
+    .then((data) => {
+      const collection = data.list.filter((item) =>
+        item.dt_txt.includes("12:00:00")
+      );
 
-  //     const weatherImages = {
-  //       Clouds: Clouds,
-  //       Rain: Rain,
-  //       Drizzle: Drizzle,
-  //       Thunderstorm: Thunderstorm,
-  //     };
+      const cityName = data.city.name + ", " + data.city.country;
+      const wind = (collection[0].wind.speed * 3.6).toFixed(1) + " km/h"
+      const pressure = (collection[0].main.pressure) + " hpa"
 
-  //     // Use it in your code like this:
-  //     const dailyForecast = collection.map((item) => {
-  //       const image = weatherImages[item.weather[0].main];
-  //       var val = ((item.main.temp_max - 32) * 5) / 9;
-  //       return [
-  //         {
-  //           day: formatDate(item.dt_txt).dayOfWeek,
-  //           date: formatDate(item.dt_txt).formattedDate,
-  //           value: val.toFixed(1),
-  //           image: image,
-  //         },
-  //       ];
-  //     });
+      setLocation(cityName)
+      setWind(wind)
+      setPressure(pressure)
 
-  //     const [firstDay, ...restDays] = dailyForecast;
-  //     setTodayWeather({
-  //       value: firstDay[0].value,
-  //       image: firstDay[0].image,
-  //     });
-  //     const tmp = restDays.flat(1);
-  //     console.log(tmp);
-  //     setRestDays(tmp);
-  //   })
-  //   .catch((error) => console.error("Error: ", error));
+      const weatherImages = {
+        Clouds: Clouds,
+        Rain: Rain,
+        Drizzle: Drizzle,
+        Thunderstorm: Thunderstorm,
+      };
+
+      // Use it in your code like this:
+      const dailyForecast = collection.map((item) => {
+        const image = weatherImages[item.weather[0].main];
+        var val = ((item.main.temp_max - 32) * 5) / 9;
+        return [
+          {
+            day: formatDate(item.dt_txt).dayOfWeek,
+            date: formatDate(item.dt_txt).formattedDate,
+            value: val.toFixed(1),
+            image: image,
+          },
+        ];
+      });
+
+      const [firstDay, ...restDays] = dailyForecast;
+      setTodayWeather({
+        value: firstDay[0].value,
+        image: firstDay[0].image,
+      });
+      const tmp = restDays.flat(1);
+      console.log(tmp);
+      setRestDays(tmp);
+    })
+    .catch((error) => console.error("Error: ", error));
 
   // -------------------------- Hy fetch --------------------
 
   return (
     <div className="dashboard">
       <div className="main-dashboard" style={{ overflow: "auto" }}>
-        <GeneralInfo />
+        <GeneralInfo location={location} wind={wind} pressure={pressure} />
         {latest_value !== undefined ? (
           <MeasurementContainer
             light={latest_value.Light}

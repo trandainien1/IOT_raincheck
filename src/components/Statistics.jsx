@@ -62,13 +62,13 @@ const Statistics = () => {
   console.log("data", datasets);
   console.log("Count", count);
 
-  const latest100 = datasets.slice(-20);
+  const lastest20 = datasets.slice(-20);
 
-  var labels = latest100.map((data) => "ID " + data.id);
-  var humidityData = latest100.map((data) => parseFloat(data.Humidity));
-  var lightData = latest100.map((data) => parseFloat(data.Light));
-  var rainData = latest100.map((data) => parseFloat(data.Rain));
-  var temperatureData = latest100.map((data) => parseFloat(data.Temperature));
+  var labels = lastest20.map((data) => "ID " + data.id);
+  var humidityData = lastest20.map((data) => parseFloat(data.Humidity));
+  var lightData = lastest20.map((data) => parseFloat(data.Light));
+  var rainData = lastest20.map((data) => parseFloat(data.Rain));
+  var temperatureData = lastest20.map((data) => parseFloat(data.Temperature));
   console.log(datasets);
 
   const createLineChart = (canvasId, label, borderColor, data, type = "line") => {
@@ -119,7 +119,7 @@ const Statistics = () => {
     createLineChart("rainChart", "Rain", 'rgba(75, 192, 192, 0.2)', rainData);
     createLineChart("lightChart", "Light", 'rgba(153, 102, 255, 0.2)', lightData);
     createLineChart("temperatureChart", "Temperature", 'rgba(255, 159, 64, 0.2)', temperatureData);
-  }, [latest100]);
+  }, [lastest20]);
   return (
     <div className="chart-container">
       <div className="chart-item">
